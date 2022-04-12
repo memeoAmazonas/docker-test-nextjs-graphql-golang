@@ -33,7 +33,7 @@ services:
     networks:
       - test-nextjs-golang
     ports:
-      - 3201:3021
+      - 3201:30201
   web:
     depends_on:
       - mongodb
