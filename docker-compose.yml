@@ -1,0 +1,51 @@
+version: "3.8"
+services:
+  mongodb:
+    image: mongo
+    container_name: database
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /test-nextjs-golang/mongo/database:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - test-nextjs-golang
+    restart: unless-stopped
+  client:
+    depends_on:
+      - mongodb
+    build:
+      context: ./test-nextjs-golang-graphql-back-client-2022
+      dockerfile: Dockerfile
+    networks:
+      - test-nextjs-golang
+    ports:
+      - 3200:3200
+  server:
+    depends_on:
+      - mongodb
+      - client
+    build:
+      context: ./test-nextjs-golang-graphql-back-server-2022
+      dockerfile: Dockerfile
+    networks:
+      - test-nextjs-golang
+    ports:
+      - 3201:3021
+  web:
+    depends_on:
+      - mongodb
+      - client
+      - server
+    build:
+      context: ./test-nextjs-golang-graphql-new-front-2022
+      dockerfile:  Dockerfile
+    networks:
+      - test-nextjs-golang
+    ports:
+      - 3000:3000
+
+networks:
+  test-nextjs-golang:
