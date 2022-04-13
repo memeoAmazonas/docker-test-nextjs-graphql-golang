@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3"
 services:
   mongodb:
     image: mongo
@@ -10,42 +10,33 @@ services:
       - /test-nextjs-golang/mongo/database:/data/db
     ports:
       - 27017:27017
-    networks:
-      - test-nextjs-golang
     restart: unless-stopped
+    networks:
+      - test-net
   client:
-    depends_on:
-      - mongodb
     build:
       context: ./test-nextjs-golang-graphql-back-client-2022
       dockerfile: Dockerfile
-    networks:
-      - test-nextjs-golang
     ports:
       - 3200:3200
+    networks:
+      - test-net
   server:
-    depends_on:
-      - mongodb
-      - client
     build:
       context: ./test-nextjs-golang-graphql-back-server-2022
       dockerfile: Dockerfile
-    networks:
-      - test-nextjs-golang
     ports:
       - 3201:30201
+    networks:
+      - test-net
   web:
-    depends_on:
-      - mongodb
-      - client
-      - server
     build:
       context: ./test-nextjs-golang-graphql-new-front-2022
       dockerfile:  Dockerfile
-    networks:
-      - test-nextjs-golang
     ports:
       - 3000:3000
+    networks:
+      - test-net
 
 networks:
-  test-nextjs-golang:
+  test-net: {}
