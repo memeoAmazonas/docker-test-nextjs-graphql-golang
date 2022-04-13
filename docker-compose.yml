@@ -12,31 +12,45 @@ services:
       - 27017:27017
     restart: unless-stopped
     networks:
-      - test-net
-  client:
+      - client-db
+  client-rest:
     build:
       context: ./test-nextjs-golang-graphql-back-client-2022
       dockerfile: Dockerfile
     ports:
       - 3200:3200
+    depends_on:
+      - mongodb
     networks:
-      - test-net
-  server:
+      - client-db
+      - server-client
+    links:
+      - mongodb
+    restart: on-failure
+
+  server-graphql:
     build:
       context: ./test-nextjs-golang-graphql-back-server-2022
       dockerfile: Dockerfile
     ports:
-      - 3201:30201
+      - 3201:3201
     networks:
-      - test-net
-  web:
+      - front-server
+      - server-client
+    links:
+      - client-rest
+  web-app:
     build:
       context: ./test-nextjs-golang-graphql-new-front-2022
       dockerfile:  Dockerfile
     ports:
       - 3000:3000
     networks:
-      - test-net
-
+      - front-server
+    links:
+      - server-graphql
 networks:
-  test-net: {}
+  front-server:
+  server-client:
+  client-db:
+
