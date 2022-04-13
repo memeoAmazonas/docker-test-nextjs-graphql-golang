@@ -13,7 +13,8 @@ make
 note: note the docker command, download the sources of the 3 projects, create the containers if they don't exist and start the docker compose
 ```
 
-####warning
+warning:
+
     if make docker doesn't work, manually run front, back and client, and bring up mongodb with make mongo-db
     use make get-repos to get repositories from source
 :( 
