@@ -7,7 +7,7 @@ services:
       - PUID=1000
       - PGID=1000
     volumes:
-      - /test-nextjs-golang/mongo/database:/data/db
+      - database_data_volume:/data/db
     ports:
       - 27017:27017
     restart: unless-stopped
@@ -24,8 +24,6 @@ services:
     networks:
       - client-db
       - server-client
-    links:
-      - mongodb
     restart: on-failure
 
   server-graphql:
@@ -37,8 +35,6 @@ services:
     networks:
       - front-server
       - server-client
-    links:
-      - client-rest
   web-app:
     build:
       context: ./test-nextjs-golang-graphql-new-front-2022
@@ -47,10 +43,13 @@ services:
       - 3000:3000
     networks:
       - front-server
-    links:
-      - server-graphql
 networks:
   front-server:
+    driver: bridge
   server-client:
+    driver: bridge
   client-db:
+    driver: bridge
 
+volumes:
+  database_data_volume:

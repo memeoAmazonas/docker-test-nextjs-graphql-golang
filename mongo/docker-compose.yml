@@ -2,7 +2,6 @@ version: "3.8"
 services:
   mongodb:
     image: mongo
-    container_name: database
     environment:
       - PUID=1000
       - PGID=1000
@@ -10,3 +9,7 @@ services:
       - /test-nextjs-golang/mongo/database:/data/db
     ports:
       - 27017:27017
+  server:
+    image: golang:1.16-alpine
+    working_dir: /app
+    command:

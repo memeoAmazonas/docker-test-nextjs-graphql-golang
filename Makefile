@@ -42,4 +42,5 @@ dev:
 	make -j 4 stop mongo-db dev-server dev-client dev-front
 
 #	@go build -o $(BUILDPATH)/build/bin/${BINARY} cmd/server.go
-
+docker-rm:
+	docker rm database docker_client-rest_1 docker_server-graphql_1 docker_web-app_1
