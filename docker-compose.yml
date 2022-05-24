@@ -14,6 +14,7 @@ services:
     networks:
       - client-db
   client-rest:
+    container_name: client
     build:
       context: ./test-nextjs-golang-graphql-back-client-2022
       dockerfile: Dockerfile
@@ -27,6 +28,7 @@ services:
     restart: on-failure
 
   server-graphql:
+    container_name: server
     build:
       context: ./test-nextjs-golang-graphql-back-server-2022
       dockerfile: Dockerfile
@@ -36,6 +38,7 @@ services:
       - front-server
       - server-client
   web-app:
+    container_name: front
     build:
       context: ./test-nextjs-golang-graphql-new-front-2022
       dockerfile:  Dockerfile

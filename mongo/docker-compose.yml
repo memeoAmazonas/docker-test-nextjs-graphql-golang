@@ -9,7 +9,3 @@ services:
       - /test-nextjs-golang/mongo/database:/data/db
     ports:
       - 27017:27017
-  server:
-    image: golang:1.16-alpine
-    working_dir: /app
-    command:
